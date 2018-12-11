@@ -1,25 +1,44 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import axios from 'axios'
+import "./App.css";
+import NavBar from "./Components/NavBar";
+import Meals from "./Components/Meals";
+import Filters from "./Components/Filters";
 
 class App extends Component {
+
+
+  state = {
+    meals : []
+  }
+
+  componentDidMount(){
+    axios.get('data.json')
+    .then(response => 
+      this.setState({
+        meals: response.data.meals
+      })
+      )
+  }
+  
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div>
+        <div className="container">
+          <NavBar />
+        </div>
+
+        <section className="section filters">
+          <div className="container">
+            <Filters />
+          </div>
+        </section>
+
+        <section className="section">
+          <div className="container">
+            <Meals meals={this.state.meals} />
+          </div>
+        </section>
       </div>
     );
   }
